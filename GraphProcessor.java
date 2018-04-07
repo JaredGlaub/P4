@@ -79,6 +79,12 @@ public class GraphProcessor {
     		for (String str : wordList) {
     			graph.addVertex(str);
     		}
+    		for(int i = 0; i < wordList.size(); i++) {
+    			for(int p = 0; p < wordList.size(); p++) {
+    				if(WordProcessor.isAdjacent(wordList.get(i), wordList.get(p)))
+    					graph.addEdge(wordList.get(i), wordList.get(p));
+    			}
+    		}
     		
     		return wordList.size();
     }
