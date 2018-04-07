@@ -1,3 +1,4 @@
+package p5;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -65,7 +66,10 @@ public class WordProcessor {
 		 * 		streamOfLines.map(...).filter(a -> ...).map(...) and so on
 		 */
 		
-		return null;
+		Stream <String> stream = Files.lines(Paths.get(filepath));
+		stream = stream.map(String::trim);
+		stream = stream.map(String::toUpperCase);
+		return stream;
 	}
 	
 	/**
@@ -86,7 +90,88 @@ public class WordProcessor {
 	 * @return true if word1 and word2 are adjacent else false
 	 */
 	public static boolean isAdjacent(String word1, String word2) {
+		if(word1.equals(word2))
+			return false;
+		
+		String [] wordA = word1.toLowerCase().split("");
+		String [] wordB = word2.toLowerCase().split("");
+		int counter = 0;
+		
+		if(wordA.length != wordB.length)
+			return testAddition(wordA, wordB);
+		
+		for(int i=0; i<wordA.length; i++) {
+			if(!wordA[i].equals(wordB[i]))
+				counter++;
+		}
+		if(counter > 1)
+			return false;
+		return true;
+	}
+	
+	private static boolean testAddition (String [] wordA, String [] wordB) {
+		if(wordA.length > wordB.length + 1 || wordB.length > wordA.length + 1)
+			return false;
+		String [] wordLonger;
+		String [] wordShorter;
+		int longer;
+		if(wordA.length > wordB.length) {
+			wordLonger = wordA;
+			wordShorter = wordB;
+		}
+		else {
+			wordLonger = wordB;
+			wordShorter = wordA;
+		}
+		
+		int counter = 0;
+		String missingChar = "";
+		boolean matchingLetter = false;
+		for(int i = 0; i < wordLonger.length; i++) {					// First, find all of the mismatched letters
+			matchingLetter = false;									// by weeding out all of the matching ones.
+			for(int p = 0; p < wordShorter.length; p++) {			
+				if(wordLonger[i].equals(wordShorter[p])) {
+					wordShorter[p] = wordShorter[p].toUpperCase();
+					matchingLetter = true;
+					break;
+				}	
+			}
+			if(!matchingLetter) {
+				missingChar = wordLonger[i];
+				counter++;
+			}
+		}
+		
+		if(counter != 1)												// If theres more than one mismatched letter,
+			return false;											// the words cannot be adjacent.
+		
+		
+		String originalWordLonger = "";
+		for(int i = 0; i < wordLonger.length; i++) {					// Convert both arrays back into strings to 
+			originalWordLonger += wordLonger[i];						// make comparison easier
+		}
+		
+		String newWord = "";
+		for(int i = 0; i < wordShorter.length; i++) {
+			newWord += wordShorter[i].toLowerCase();
+		}
+		String temp = newWord;
+		for(int i = 0; i < wordLonger.length; i++) {								// Attempt to add in the missing letter at 
+			newWord = new StringBuilder(temp).insert(i, missingChar).toString();	// each possible slot, and check all of them
+			if(newWord.equals(originalWordLonger))								// for equivalence
+				return true;
+		}
+		
 		return false;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }
