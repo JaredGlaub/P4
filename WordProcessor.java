@@ -67,6 +67,7 @@ public class WordProcessor {
 		 */
 		
 		Stream <String> stream = Files.lines(Paths.get(filepath));
+		stream = stream.filter(str->str.trim().length() > 0);
 		stream = stream.map(String::trim);
 		stream = stream.map(String::toUpperCase);
 		return stream;

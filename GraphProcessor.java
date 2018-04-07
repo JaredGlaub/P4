@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -65,8 +66,21 @@ public class GraphProcessor {
      * @return Integer the number of vertices (words) added
      */
     public Integer populateGraph(String filepath) {
-        return 0;
-    
+    		Stream <String> stream = null;
+    		try {
+    			stream = WordProcessor.getWordStream(filepath);
+    		}
+    		catch (IOException e) {
+    			System.out.println("Unable to find the file: " + filepath);
+    			System.exit(0);
+    		}
+		
+    		List<String> wordList = stream.collect(Collectors.toList());
+    		for (String str : wordList) {
+    			graph.addVertex(str);
+    		}
+    		
+    		return wordList.size();
     }
 
     
