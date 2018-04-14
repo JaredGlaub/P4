@@ -108,7 +108,9 @@ public class GraphProcessor {
      * @return List<String> list of the words
      */
     public List<String> getShortestPath(String word1, String word2) {
-        return null;
+        //uses shortest path precompuatation to find shortest path between words
+    	//shortestPathPrecomputation(A);
+    	return null;
     
     }
     
@@ -130,7 +132,8 @@ public class GraphProcessor {
      * @return Integer distance
      */
     public Integer getShortestDistance(String word1, String word2) {
-        return null;
+        populateGraph();
+       //shortestPathPrecomputation(D);
     }
     
     /**
@@ -138,7 +141,24 @@ public class GraphProcessor {
      * This method is called after every set of updates in the graph to recompute the path information.
      * Any shortest path algorithm can be used (Djikstra's or Floyd-Warshall recommended).
      */
-    public void shortestPathPrecomputation() {
     
-    }
+    /*
+     * D the amount of vertices visited from one edge to another
+     * A tracks the shortest path to and from all edges
+     */
+    public void shortestPathPrecomputation() {
+    	//final static int V = amountofvertices
+    	//int [][] D = [V][V]; //distance matrix initialized to amount of words in graph
+    	//int [][] A = adjacencyMatrix, matrix to find shortest path
+    	for (int k = 0; k < V; k++) {
+    		for (int i = 0; i < V; i++) {
+    			for (int j = 0; j < V; j++) {
+    				if (A[i][k] + A[k][j] < A[i][j]) {
+    					A[i][j] = A[i][k] + A[k][j];
+    					D[i][j] = k;
+    				}
+    			}
+			}
+		}
+	}
 }
