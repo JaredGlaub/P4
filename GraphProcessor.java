@@ -1,3 +1,16 @@
+/////////////////////////////////////////////////////////////////////////////
+// Semester:	CS400 Spring 2018
+// Project: 	Dictionary Graph
+// Files: 	Graph.java, GraphTest.java, GraphProcessor.java, 
+//		GraphProcessorTest.java, WordProcessor.java
+//
+// By: 		Jared Glaub, Brian Guth, Brennan Fife, Emma Groblewski, Mustafa
+// Due date: 	4/16/2018
+// Instructor:  Deb Deppeler 
+// Bugs: 	No known
+//
+//////////////////////////// 80 columns wide //////////////////////////////////
+
 package p5;
 import java.io.IOException;
 import java.util.ArrayList;
