@@ -57,6 +57,9 @@ public class GraphProcessor {
      * Graph which stores the dictionary words and their associated connections
      */
     private GraphADT<String> graph;
+    private ArrayList<String> wordList;
+    private String [][] nextWords;
+    private int [][] distance; 
 
     /**
      * Constructor for this class. Initializes instances variables to set the starting state of the object
@@ -122,10 +125,28 @@ public class GraphProcessor {
      * @return List<String> list of the words
      */
     public List<String> getShortestPath(String word1, String word2) {
+	int index1 = wordList.indexOf(word1);
+    	int index2 = wordList.indexOf(word2);
+	String nextWord = "";
+    	word1 = word1.trim();
+    	word2 = word2.trim();
+    	List<String> path = new ArrayList<String>();
+    	if (nextWords[index1][index2] == null) {
+    		return path;
+    	} 
+	else {
+    		path.add(word1);
+    		while (!nextWord.equals(word2)) {
+    		nextWord = next[index1][index2];
+    		index1 = wordList.indexOf(nextWord);
+    		path.add(nextWord);
+    	}
+	return path;
+    }
+}   
         //uses shortest path precompuatation to find shortest path between words
     	//shortestPathPrecomputation(A);
-    	return null;
-    
+
     }
     
     /**
@@ -146,7 +167,11 @@ public class GraphProcessor {
      * @return Integer distance
      */
     public Integer getShortestDistance(String word1, String word2) {
-        populateGraph();
+        int index1 = wordList.indexOf(word1);
+        int index2 = wordList.indexOf(word2);
+        return distance[index1][index2];
+    }
+       // populateGraph();
        //shortestPathPrecomputation(D);
     }
     
