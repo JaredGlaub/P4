@@ -108,8 +108,15 @@ public class GraphProcessor {
      * @return List<String> list of the words
      */
     public List<String> getShortestPath(String word1, String word2) {
-        //uses shortest path precompuatation to find shortest path between words
-    	//shortestPathPrecomputation(A);
+    	//get index of word, add to path, update path
+    	int i = wordList.indexOf(word1);
+        int j = wordList.indexOf(word2);
+        
+    	List<String> shortPath = new ArrayList<String>();
+    	shortPath.add(word1);
+    	if ()
+       
+    	
     	return null;
     
     }
@@ -132,8 +139,12 @@ public class GraphProcessor {
      * @return Integer distance
      */
     public Integer getShortestDistance(String word1, String word2) {
-        populateGraph();
-       //shortestPathPrecomputation(D);
+        //return distance from index of word 1 to word 2
+        
+        
+        List<String> shortPath
+        
+        return D[i][j];
     }
     
     /**
@@ -147,9 +158,14 @@ public class GraphProcessor {
      * A tracks the shortest path to and from all edges
      */
     public void shortestPathPrecomputation() {
-    	//final static int V = amountofvertices
-    	//int [][] D = [V][V]; //distance matrix initialized to amount of words in graph
-    	//int [][] A = adjacencyMatrix, matrix to find shortest path
+    	V = wordList.size();
+    	D = new int[V][V]; //distance matrix initialized to amount of words in graph
+    	A = new String [V][V]; // adjacencyMatrix, matrix to find shortest path
+		final static int INF = 9999;
+    	for 		
+    	// iterate through graph to find edges to update distance and next edge		
+    	Iterator<String> RedoPath = grapth.getAllVertices().iterator();	
+		while (graph.)
     	for (int k = 0; k < V; k++) {
     		for (int i = 0; i < V; i++) {
     			for (int j = 0; j < V; j++) {
