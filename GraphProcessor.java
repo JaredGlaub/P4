@@ -1,22 +1,10 @@
-/////////////////////////////////////////////////////////////////////////////
-// Semester:	CS400 Spring 2018
-// Project: 	Dictionary Graph
-// Files: 	Graph.java, GraphTest.java, GraphProcessor.java, 
-//		GraphProcessorTest.java, WordProcessor.java
-//
-// By: 		Jared Glaub, Brian Guth, Brennan Fife, Emma Groblewski, Mustafa
-//		Musabeyli
-// Due date: 	4/16/2018
-// Instructor:  Deb Deppeler 
-// Bugs: 	No known
-//
-//////////////////////////// 80 columns wide //////////////////////////////////
-
 package p5;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Supplier;
@@ -59,7 +47,8 @@ public class GraphProcessor {
     private GraphADT<String> graph;
     private ArrayList<String> wordList;
     private String [][] nextWords;
-    private int [][] distance; 
+    private int [][] D;
+    private String [][] A;
 
     /**
      * Constructor for this class. Initializes instances variables to set the starting state of the object
@@ -125,28 +114,22 @@ public class GraphProcessor {
      * @return List<String> list of the words
      */
     public List<String> getShortestPath(String word1, String word2) {
-	int index1 = wordList.indexOf(word1);
-    	int index2 = wordList.indexOf(word2);
-	String nextWord = "";
-    	word1 = word1.trim();
-    	word2 = word2.trim();
+    	int i = wordList.indexOf(word1);
+    	int j = wordList.indexOf(word2);
+    	String nextWord = "";
     	List<String> path = new ArrayList<String>();
-    	if (nextWords[index1][index2] == null) {
+    	if (nextWords[i][j] == null) {
     		return path;
     	} 
-	else {
+    	else {
     		path.add(word1);
     		while (!nextWord.equals(word2)) {
-    		nextWord = next[index1][index2];
-    		index1 = wordList.indexOf(nextWord);
-    		path.add(nextWord);
+    			nextWord = next[i][j];
+    			index1 = wordList.indexOf(nextWord);
+    			path.add(nextWord);
     	}
-	return path;
-    }
-}   
-        //uses shortest path precompuatation to find shortest path between words
-    	//shortestPathPrecomputation(A);
-
+    	return path; 
+    	}
     }
     
     /**
@@ -167,12 +150,10 @@ public class GraphProcessor {
      * @return Integer distance
      */
     public Integer getShortestDistance(String word1, String word2) {
-        int index1 = wordList.indexOf(word1);
-        int index2 = wordList.indexOf(word2);
-        return distance[index1][index2];
-    }
-       // populateGraph();
-       //shortestPathPrecomputation(D);
+        //return distance from index of word 1 to word 2
+        int i = wordList.indexOf(word1);
+        int j = wordList.indexOf(word2);
+        return distance[i][j];
     }
     
     /**
@@ -186,18 +167,36 @@ public class GraphProcessor {
      * A tracks the shortest path to and from all edges
      */
     public void shortestPathPrecomputation() {
-    	//final static int V = amountofvertices
-    	//int [][] D = [V][V]; //distance matrix initialized to amount of words in graph
-    	//int [][] A = adjacencyMatrix, matrix to find shortest path
+    	V = wordList.size();
+    	D = [V][V]; //distance matrix initialized to amount of words in graph
+    	A = [V][V]; // adjacencyMatrix, matrix to find shortest path
+	final static int INF = 9999;    
+    	for (int[] row: A) {
+    		Arrays.fill(A, INF);
+    	}	    
+    	// iterate through graph to find edges to update distance and next edge		
+    	Iterator<String> vertexList = graph.getAllVertices().iterator();	
+    	while(vertexList.hasNext()) {
+    		String vertex = vertexList.next();
+    		int vertexIndex = vertexList.indexOf(vertex));
+    		Iterator<String> edgeList = graph.getNeighbors(vertex).iterator();
+    		while(edgeList.hasNext()) {
+    			String edge = edgeList.next();
+    			edgeIndex = edgeList.indexOf(edge);
+    			D[vertexIndex][edgeIndex] = 1;
+    			A[vertexIndex][edgeIndex] = edge;
+    		}
+    	}
+    	// Floyd-Warshall algorithm with path reconstruction
     	for (int k = 0; k < V; k++) {
     		for (int i = 0; i < V; i++) {
     			for (int j = 0; j < V; j++) {
-    				if (A[i][k] + A[k][j] < A[i][j]) {
-    					A[i][j] = A[i][k] + A[k][j];
-    					D[i][j] = k;
+    				if (D[i][k] + D[k][j] < D[i][j]) {
+    					D[i][j] = D[i][k] + D[k][j];
+    					A[i][j] = A[i][k];
     				}
     			}
-			}
 		}
 	}
+    }
 }
